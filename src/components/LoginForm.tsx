@@ -10,7 +10,10 @@ interface LoginFormProps {}
 
 const LoginForm: FC<LoginFormProps> = () => {
     const { isLoading } = useTypedSelector((state) => state.auth);
-    const [user, setUser] = useState<IUser>({ username: '', password: '' });
+    const [user, setUser] = useState<IUser>({
+        username: '',
+        password: '',
+    });
     const { login } = useActions();
 
     const submit = (event: React.FormEvent) => {

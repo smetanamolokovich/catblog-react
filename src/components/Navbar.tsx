@@ -36,7 +36,6 @@ const Header: FC = () => {
     const router = useHistory();
     const { isAuth, user } = useTypedSelector((state) => state.auth);
     const { logout } = useActions();
-    console.log(user);
 
     return (
         <header>

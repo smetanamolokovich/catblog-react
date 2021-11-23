@@ -5,9 +5,11 @@ import {
     SetAuthAction,
     SetErrorAction,
     SetLoadingAction,
+    SetTokenAction,
     SetUserAction,
 } from './types';
 import { AuthService } from '@/services/authService';
+import { IToken } from '@/models/auth';
 
 export const AuthActionCreators = {
     setUser: (user: IUser): SetUserAction => ({
@@ -26,35 +28,40 @@ export const AuthActionCreators = {
         type: AuthActionTypes.SET_ERROR,
         payload: error,
     }),
+    setToken: (token: IToken): SetTokenAction => ({
+        type: AuthActionTypes.SET_TOKEN,
+        payload: token,
+    }),
     login: (username: string, password: string) => async (dispatch: AppDispatch) => {
         try {
             dispatch(AuthActionCreators.setIsLoading(true));
 
             const token = await AuthService.login(username, password);
+            const expires = Date.now() + token.expires_in * 1000;
 
-            localStorage.setItem('auth', JSON.stringify(token));
-            localStorage.setItem('isAuth', JSON.stringify('true'));
-            localStorage.setItem('username', username);
+            localStorage.setItem(
+                'user',
+                JSON.stringify({ username, expires, accessToken: token.access_token })
+            );
 
             dispatch(AuthActionCreators.setIsAuth(true));
+            dispatch(AuthActionCreators.setToken({ ...token, expires_in: expires }));
             dispatch(
                 AuthActionCreators.setUser({
                     username,
                     password,
                 })
             );
-            dispatch(AuthActionCreators.setIsLoading(false));
             dispatch(AuthActionCreators.setError(''));
         } catch (err) {
             dispatch(AuthActionCreators.setError('Login failed. Please try again...'));
         }
     },
     logout: () => async (dispatch: AppDispatch) => {
-        localStorage.removeItem('auth');
-        localStorage.removeItem('isAuth');
-        localStorage.removeItem('username');
+        localStorage.removeItem('user');
         dispatch(AuthActionCreators.setIsAuth(false));
         dispatch(AuthActionCreators.setUser({} as IUser));
+        dispatch(AuthActionCreators.setToken({} as IToken));
         dispatch(AuthActionCreators.setError(''));
     },
 };

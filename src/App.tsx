@@ -7,15 +7,19 @@ import { useActions } from '@/hooks/useActions';
 import './App.css';
 
 function App() {
-    const { setIsAuth, setUser } = useActions();
+    const { setIsAuth, setUser, logout } = useActions();
 
     useEffect(() => {
-        if (localStorage.getItem('isAuth')) {
-            const username = localStorage.getItem('username');
-            if (username) {
-                setUser({ username, password: '' });
+        const userStr = localStorage.getItem('user');
+        if (userStr) {
+            const user = JSON.parse(userStr);
+
+            if (user && user.expires < Date.now()) {
+                logout();
+            } else {
+                setUser({ username: user.username, password: '' });
+                setIsAuth(true);
             }
-            setIsAuth(true);
         }
     }, []);
 

@@ -1,3 +1,4 @@
+import { IToken } from '@/models/auth';
 import { IUser } from '@/models/user';
 
 export interface AuthState {
@@ -5,6 +6,7 @@ export interface AuthState {
     user: IUser;
     isLoading: boolean;
     error: string;
+    token: IToken;
 }
 
 export enum AuthActionTypes {
@@ -12,6 +14,7 @@ export enum AuthActionTypes {
     SET_USER = 'SET_USER',
     SET_LOADING = 'SET_LOADING',
     SET_ERROR = 'SET_ERROR',
+    SET_TOKEN = 'SET_TOKEN',
 }
 
 export interface SetAuthAction {
@@ -30,5 +33,14 @@ export interface SetErrorAction {
     type: AuthActionTypes.SET_ERROR;
     payload: string;
 }
+export interface SetTokenAction {
+    type: AuthActionTypes.SET_TOKEN;
+    payload: IToken;
+}
 
-export type AuthAction = SetAuthAction | SetErrorAction | SetUserAction | SetLoadingAction;
+export type AuthAction =
+    | SetAuthAction
+    | SetErrorAction
+    | SetUserAction
+    | SetLoadingAction
+    | SetTokenAction;
