@@ -1,23 +1,30 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import AppRouter from './components/AppRouter';
-import Header from './components/Navbar';
+import AppRouter from '@/components/AppRouter';
+import Header from '@/components/Navbar';
+import { useActions } from '@/hooks/useActions';
 
 import './App.css';
 
 function App() {
+    const { setIsAuth, setUser } = useActions();
+
+    useEffect(() => {
+        if (localStorage.getItem('isAuth')) {
+            const username = localStorage.getItem('username');
+            if (username) {
+                setUser({ username, password: '' });
+            }
+            setIsAuth(true);
+        }
+    }, []);
+
     return (
         <>
             <Header />
-            <Container>
-                <Row>
-                    <Col sm={8}>
-                        <AppRouter />
-                    </Col>
-                    <Col sm={4}>side</Col>
-                </Row>
+
+            <Container className='main'>
+                <AppRouter />
             </Container>
         </>
     );

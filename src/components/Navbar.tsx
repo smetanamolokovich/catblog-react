@@ -7,6 +7,8 @@ import Dropdown from 'react-bootstrap/Dropdown';
 
 import { useHistory } from 'react-router';
 import { RouteNames } from '@/router';
+import { useTypedSelector } from '@/hooks/useTypedSelector';
+import { useActions } from '@/hooks/useActions';
 
 interface CustomToggleProps {
     avatar?: string;
@@ -32,22 +34,26 @@ const CustomToggle = React.forwardRef<HTMLImageElement, CustomToggleProps>(
 
 const Header: FC = () => {
     const router = useHistory();
-    const auth = true;
+    const { isAuth, user } = useTypedSelector((state) => state.auth);
+    const { logout } = useActions();
+    console.log(user);
 
     return (
         <header>
-            <Navbar expand='lg'>
+            <Navbar bg='light' variant='light' expand='md'>
                 <Container>
-                    <Navbar.Brand href='#home'>Logo</Navbar.Brand>
+                    <Navbar.Brand onClick={() => router.push(RouteNames.HOME)}>
+                        Logo
+                    </Navbar.Brand>
                     <Navbar.Toggle aria-controls='responsive-navbar-nav' />
                     <Navbar.Collapse id='responsive-navbar-nav'>
                         <Nav className='me-auto' defaultActiveKey={RouteNames.HOME}>
                             <Nav.Link onClick={() => router.push(RouteNames.HOME)}>
                                 Recent Articles
                             </Nav.Link>
-                            <Nav.Link href='/link'>About</Nav.Link>
+                            <Nav.Link onClick={() => router.push('/about')}>About</Nav.Link>
                         </Nav>
-                        {auth ? (
+                        {isAuth ? (
                             <Nav className='justify-content-end'>
                                 <Nav.Item>
                                     <Nav.Link
@@ -59,7 +65,11 @@ const Header: FC = () => {
                                 <Nav.Item>
                                     <Nav.Link>Create article</Nav.Link>
                                 </Nav.Item>
-                                <Dropdown className='d-flex align-items-center ms-5'>
+                                <Dropdown.Item className='d-md-none px-0' onClick={logout}>
+                                    Logout
+                                </Dropdown.Item>
+
+                                <Dropdown className='d-flex align-items-center ms-5 d-none d-md-block'>
                                     <Dropdown.Toggle as={CustomToggle} id='dropdown-basic'>
                                         <Image
                                             src='https://via.placeholder.com/32X32?text=?'
@@ -67,21 +77,18 @@ const Header: FC = () => {
                                         />
                                     </Dropdown.Toggle>
 
-                                    <Dropdown.Menu>
-                                        <Dropdown.Item href='#/action-1'>Action</Dropdown.Item>
-                                        <Dropdown.Item href='#/action-2'>
-                                            Another action
-                                        </Dropdown.Item>
-                                        <Dropdown.Item href='#/action-3'>
-                                            Something else
-                                        </Dropdown.Item>
+                                    <Dropdown.Menu style={{ left: '-100px' }}>
+                                        {user.username ? (
+                                            <Dropdown.Header>{user.username}</Dropdown.Header>
+                                        ) : null}
+                                        <Dropdown.Item onClick={logout}>Logout</Dropdown.Item>
                                     </Dropdown.Menu>
                                 </Dropdown>
                             </Nav>
                         ) : (
                             <Nav className='justify-content-end'>
                                 <Nav.Link onClick={() => router.push(RouteNames.LOGIN)}>
-                                    Login
+                                    Login &#8674;
                                 </Nav.Link>
                             </Nav>
                         )}

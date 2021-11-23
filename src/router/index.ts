@@ -1,7 +1,7 @@
 import React from 'react';
 import AdminPanel from '@/pages/admin/AdminPanel';
 import Home from '@/pages/blog/Home';
-import Login from '@/pages/Login';
+import Login from '@/pages/blog//Login';
 
 export interface IRoute {
     path: string;
