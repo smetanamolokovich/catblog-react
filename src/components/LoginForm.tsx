@@ -1,25 +1,23 @@
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Spinner from 'react-bootstrap/Spinner';
-import { IUser } from '@/models/user';
 import { useTypedSelector } from '@/hooks/useTypedSelector';
 import { useActions } from '@/hooks/useActions';
+import { useFormInput } from '@/hooks/useFormInput';
 
 interface LoginFormProps {}
 
 const LoginForm: FC<LoginFormProps> = () => {
     const { isLoading } = useTypedSelector((state) => state.auth);
-    const [user, setUser] = useState<IUser>({
-        username: '',
-        password: '',
-    });
+    const username = useFormInput('');
+    const password = useFormInput('');
     const { login } = useActions();
 
     const submit = (event: React.FormEvent) => {
         event.preventDefault();
 
-        login(user.username, user.password);
+        login(username.value, password.value);
     };
 
     return (
@@ -28,23 +26,12 @@ const LoginForm: FC<LoginFormProps> = () => {
 
             <Form.Group className='mb-3' controlId='formBasicEmail'>
                 <Form.Label>Email</Form.Label>
-                <Form.Control
-                    value={user.username}
-                    onChange={(e) => setUser({ ...user, username: e.target.value })}
-                    type='text'
-                    placeholder='John Doe'
-                    required
-                />
+                <Form.Control {...username} type='text' placeholder='John Doe' required />
             </Form.Group>
 
             <Form.Group className='mb-3' controlId='formBasicPassword'>
                 <Form.Label>Password</Form.Label>
-                <Form.Control
-                    value={user.password}
-                    onChange={(e) => setUser({ ...user, password: e.target.value })}
-                    type='password'
-                    placeholder='**********'
-                />
+                <Form.Control {...password} type='password' placeholder='**********' />
             </Form.Group>
 
             <div className='text-right mt-4'>

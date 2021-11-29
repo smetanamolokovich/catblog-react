@@ -41,8 +41,14 @@ const Header: FC = () => {
         <header>
             <Navbar bg='light' variant='light' expand='md'>
                 <Container>
-                    <Navbar.Brand onClick={() => router.push(RouteNames.HOME)}>
-                        Logo
+                    <Navbar.Brand role='button' onClick={() => router.push(RouteNames.HOME)}>
+                        <img
+                            src='/logo.png'
+                            width='40'
+                            height='45'
+                            className='d-inline-block align-top'
+                            alt='React Bootstrap logo'
+                        />
                     </Navbar.Brand>
                     <Navbar.Toggle aria-controls='responsive-navbar-nav' />
                     <Navbar.Collapse id='responsive-navbar-nav'>
@@ -62,7 +68,11 @@ const Header: FC = () => {
                                     </Nav.Link>
                                 </Nav.Item>
                                 <Nav.Item>
-                                    <Nav.Link>Create article</Nav.Link>
+                                    <Nav.Link
+                                        onClick={() => router.push(RouteNames.CREATE_ARTICLE)}
+                                    >
+                                        Create article
+                                    </Nav.Link>
                                 </Nav.Item>
                                 <Dropdown.Item className='d-md-none px-0' onClick={logout}>
                                     Logout

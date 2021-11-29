@@ -11,7 +11,6 @@ const AppRouter = () => {
             {privateRoutes.map((props) => (
                 <Route key={props.path} {...props} />
             ))}
-
             <Redirect to={RouteNames.HOME} />
         </Switch>
     ) : (

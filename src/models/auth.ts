@@ -6,6 +6,10 @@ export interface IAuthSuccess {
 
 export interface IToken extends IAuthSuccess {}
 
+export interface ITenants {
+    apiKey: string;
+}
+
 export interface IAuthError {
     code: string;
     message: string;

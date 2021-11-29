@@ -8,7 +8,7 @@ import {
     SetTokenAction,
     SetUserAction,
 } from './types';
-import { AuthService } from '@/services/authService';
+import { AuthService } from '@/services';
 import { IToken } from '@/models/auth';
 
 export const AuthActionCreators = {

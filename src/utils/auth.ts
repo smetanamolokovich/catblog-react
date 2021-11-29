@@ -1,25 +1,21 @@
-import { IAuthSuccess } from '@/models/auth';
 import { AxiosRequestHeaders } from 'axios';
 
-const API_KEY = 'a816f2f0-02ec-41dc-a868-8e2f45b97eba';
+// const API_KEY = '021993c0-c7f0-4b83-b091-0ce567138720';
+export const authHeader = (apiKey: string, isFile = false): AxiosRequestHeaders => {
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
 
-export const authHeader = (): AxiosRequestHeaders => {
-    const auth = localStorage.getItem('auth');
-
-    const user: IAuthSuccess = auth && JSON.parse(auth);
-
-    if (user && user.access_token) {
+    if (user.accessToken) {
         return {
-            Authorization: 'Bearer ' + user.access_token,
+            Authorization: 'Bearer ' + user.accessToken,
             accept: 'application/json',
-            'X-API-KEY': API_KEY,
-            'Content-Type': 'application/json',
+            'X-API-KEY': apiKey,
+            'Content-Type': isFile ? 'multipart/form-data' : 'application/json',
         };
     } else {
         return {
             accept: 'application/json',
-            'X-API-KEY': API_KEY,
-            'Content-Type': 'application/json',
+            'X-API-KEY': apiKey,
+            'Content-Type': isFile ? 'multipart/form-data' : 'application/json',
         };
     }
 };
