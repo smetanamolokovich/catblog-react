@@ -21,9 +21,7 @@ const Home: FC = () => {
             <h2 className='my-5'>Recent articles</h2>
             {isFetching ? (
                 <div className='text-center'>
-                    <Spinner animation='grow' role='status'>
-                        <span className='visually-hidden'>Loading...</span>
-                    </Spinner>
+                    <Spinner animation='grow' role='status' />
                 </div>
             ) : (
                 <ArticleList articles={articles} />

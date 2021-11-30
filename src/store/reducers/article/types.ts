@@ -1,4 +1,4 @@
-import { IArticle, IImageFormData } from '@/models/article';
+import { IArticle } from '@/models/article';
 
 export interface ArticleState {
     isFetching: boolean;

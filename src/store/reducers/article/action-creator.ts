@@ -1,4 +1,4 @@
-import { IArticle, IArticleFormData, IImageFormData } from '@/models/article';
+import { IArticle, IArticleFormData } from '@/models/article';
 import { ArticleService } from '@/services';
 import ImageService from '@/services/imageService';
 import { AppDispatch } from '@/store';
@@ -59,11 +59,15 @@ export const ArticleActionCreator = {
     },
     getArticleByID: (id: string) => async (dispatch: AppDispatch) => {
         try {
+            dispatch(ArticleActionCreator.setIsFetching(true));
+
             const article = await ArticleService.getArticleByID(id);
             dispatch(ArticleActionCreator.setArticle(article));
+
+            dispatch(ArticleActionCreator.setIsFetching(false));
         } catch (error) {
             dispatch(
-                ArticleActionCreator.setArticleError('Failed while fetching the article...')
+                ArticleActionCreator.setArticleError('Failed while fetching an article...')
             );
         }
     },

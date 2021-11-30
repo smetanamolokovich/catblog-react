@@ -1,4 +1,4 @@
-import { IArticle, IImageFormData } from '@/models/article';
+import { IArticle } from '@/models/article';
 import { ArticleAction, ArticleActionTypes, ArticleState } from './types';
 
 const initialState: ArticleState = {

@@ -5,15 +5,18 @@ import ArticleItem from './ArticleItem';
 
 interface ArticleListProps {
     articles: IArticle[];
+    plain?: boolean;
 }
 
-const ArticleList: FC<ArticleListProps> = ({ articles }) => {
+const ArticleList: FC<ArticleListProps> = ({ articles, plain }) => {
     return (
         <Row>
             {articles.length ? (
                 articles
                     .sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt))
-                    .map((item) => <ArticleItem key={item.articleId} article={item} />)
+                    .map((item) => (
+                        <ArticleItem key={item.articleId} article={item} plain={plain} />
+                    ))
             ) : (
                 <h5 className='text-muted'>No articles published yet...</h5>
             )}

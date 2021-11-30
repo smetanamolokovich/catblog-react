@@ -11,11 +11,11 @@ const LoginPageLayout: FC = ({ children }) => {
     return (
         <Row>
             <Col>
-                {error ? (
+                {error && (
                     <Alert variant='danger' className='mt-5 mx-auto w-50'>
                         {error}
                     </Alert>
-                ) : null}
+                )}
 
                 {children}
             </Col>

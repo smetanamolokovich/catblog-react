@@ -16,7 +16,7 @@ const AdminTable: FC<AdminTableProps> = ({ articles }) => {
     const router = useHistory();
 
     return (
-        <Table>
+        <Table responsive='md'>
             <thead>
                 <tr>
                     <th>Article title</th>
@@ -30,12 +30,12 @@ const AdminTable: FC<AdminTableProps> = ({ articles }) => {
                 {articles.map((article) => (
                     <tr key={article.articleId}>
                         <td>
-                            <div className='elipsis' style={{ maxWidth: '250px' }}>
+                            <div className='elipsis-single' style={{ maxWidth: '250px' }}>
                                 {article.title}
                             </div>
                         </td>
                         <td>
-                            <div className='elipsis' style={{ maxWidth: '420px' }}>
+                            <div className='elipsis-single' style={{ maxWidth: '420px' }}>
                                 {article.perex}
                             </div>
                         </td>
@@ -59,14 +59,22 @@ const AdminTable: FC<AdminTableProps> = ({ articles }) => {
                                         )
                                     }
                                     className='btn-light'
-                                    style={{ backgroundColor: 'white', fontSize: '20px' }}
+                                    style={{
+                                        backgroundColor: 'white',
+                                        fontSize: '20px',
+                                        border: 'none',
+                                    }}
                                 >
                                     <i className='bi bi-pencil'></i>
                                 </Button>
                                 <Button
                                     onClick={() => removeArticle(article.articleId)}
                                     className='btn-light'
-                                    style={{ backgroundColor: 'white', fontSize: '20px' }}
+                                    style={{
+                                        backgroundColor: 'white',
+                                        fontSize: '20px',
+                                        border: 'none',
+                                    }}
                                 >
                                     <i className='bi bi-trash'></i>
                                 </Button>
