@@ -6,6 +6,7 @@ import Button from 'react-bootstrap/Button';
 import Image from 'react-bootstrap/Image';
 import ImageService from '@/services/imageService';
 import { useHistory } from 'react-router-dom';
+import { useWindowWidth } from '@/hooks/useWindowWidth';
 
 interface ArticleItemProps {
     article: IArticle;
@@ -15,6 +16,7 @@ interface ArticleItemProps {
 const ArticleItem: FC<ArticleItemProps> = ({ article, plain }) => {
     const router = useHistory();
     const [image, setImage] = useState<string>('');
+    const width = useWindowWidth();
 
     useEffect(() => {
         if (!plain) {
@@ -31,9 +33,14 @@ const ArticleItem: FC<ArticleItemProps> = ({ article, plain }) => {
     };
 
     return !plain ? (
-        <Stack direction='horizontal' gap={4} className='mb-5' style={{ maxWidth: '860px' }}>
+        <Stack
+            direction={width < 800 ? 'vertical' : 'horizontal'}
+            gap={4}
+            className='mb-5'
+            style={{ maxWidth: '860px' }}
+        >
             <Image
-                width={272}
+                width={width < 800 ? '100%' : 272}
                 height={244}
                 style={{ objectFit: 'cover' }}
                 src={`${image}` || 'https://via.placeholder.com/274X244?text=?'}

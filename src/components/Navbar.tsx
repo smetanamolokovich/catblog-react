@@ -47,7 +47,7 @@ const Header: FC = () => {
                             width='40'
                             height='45'
                             className='d-inline-block align-top'
-                            alt='React Bootstrap logo'
+                            alt='logo'
                         />
                     </Navbar.Brand>
                     <Navbar.Toggle aria-controls='responsive-navbar-nav' />

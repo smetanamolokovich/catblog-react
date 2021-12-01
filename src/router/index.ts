@@ -1,10 +1,10 @@
 import React from 'react';
 import AdminPanel from '@/pages/admin/AdminPanel';
 import Home from '@/pages/blog/Home';
-import Login from '@/pages/blog//Login';
+import Login from '@/pages/admin//Login';
 import CreateArticle from '@/pages/blog/CreateArticle';
 import Article from '@/pages/blog/Article';
-import UpdateArticle from '@/pages/blog/UpdateArticle';
+import UpdateArticle from '@/pages/admin/UpdateArticle';
 
 export interface IRoute {
     path: string;
