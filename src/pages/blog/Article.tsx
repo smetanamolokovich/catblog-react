@@ -54,7 +54,12 @@ const Article = () => {
             </Col>
             <Col sm='4' className='p-5 '>
                 <h4 className='mb-4'>Related articles</h4>
-                <ArticleList articles={articles} plain />
+                <ArticleList
+                    articles={articles}
+                    plain
+                    limit={4}
+                    excludeID={params.articleId}
+                />
             </Col>
         </Row>
     );

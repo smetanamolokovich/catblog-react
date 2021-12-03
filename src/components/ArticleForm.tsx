@@ -2,6 +2,7 @@ import React, { ChangeEvent, FormEvent, useEffect, useRef, useState } from 'reac
 import { v4 as uuidv4 } from 'uuid';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Button from 'react-bootstrap/Button';
+import Stack from 'react-bootstrap/Stack';
 import Form from 'react-bootstrap/Form';
 import Image from 'react-bootstrap/Image';
 import MDEditor from '@uiw/react-md-editor';
@@ -13,11 +14,22 @@ interface FormProps {
     submitFn: (data: any) => void;
 }
 
+interface FormError {
+    title: string;
+    content: string;
+    image: string;
+}
+
 const ArticleForm = React.forwardRef<HTMLInputElement, FormProps>(
     ({ article, img, submitFn }, ref) => {
         const [title, setTitle] = useState('');
         const [content, setContent] = useState('');
         const [image, setImage] = useState<string>('');
+        const [errors, setErrors] = useState<FormError>({
+            title: '',
+            content: '',
+            image: '',
+        });
         const [file, setFile] = useState<Blob | string>('');
         const fileUploadRef = useRef<HTMLInputElement>(null);
 
@@ -42,6 +54,32 @@ const ArticleForm = React.forwardRef<HTMLInputElement, FormProps>(
             }
         }
 
+        const isValid = () => {
+            let errors = {} as FormError;
+
+            if (!title) {
+                errors.title = 'Title is required';
+            }
+
+            if (!content) {
+                errors.content = 'Content is required';
+            } else if (content.length <= 150) {
+                errors.content = 'Should contain at least 150 characters';
+            }
+
+            if (!image) {
+                errors.image = 'Image is required';
+            }
+
+            setErrors(errors);
+
+            if (Object.keys(errors).length === 0) {
+                return true;
+            } else {
+                return false;
+            }
+        };
+
         function deleteFiles() {
             if (fileUploadRef.current?.value) {
                 fileUploadRef.current.value = '';
@@ -55,18 +93,21 @@ const ArticleForm = React.forwardRef<HTMLInputElement, FormProps>(
 
         const handleSubmit = (e: FormEvent) => {
             e.preventDefault();
-            const id = article?.articleId || uuidv4();
-            const fd = new FormData();
-            if (file) fd.append('image', file);
 
-            submitFn({
-                articleId: id,
-                title,
-                content,
-                imageId: article?.imageId || id,
-                perex: handlePerex(content),
-                image: fd,
-            });
+            if (isValid()) {
+                const id = article?.articleId || uuidv4();
+                const fd = new FormData();
+                if (file) fd.append('image', file);
+
+                submitFn({
+                    articleId: id,
+                    title,
+                    content,
+                    imageId: article?.imageId || id,
+                    perex: handlePerex(content),
+                    image: fd,
+                });
+            }
         };
 
         return (
@@ -78,7 +119,11 @@ const ArticleForm = React.forwardRef<HTMLInputElement, FormProps>(
                         type='text'
                         placeholder='My first article'
                         onChange={(e) => setTitle(e.target.value)}
+                        isInvalid={!!errors.title}
                     />
+                    <Form.Control.Feedback type='invalid'>
+                        {errors.title}
+                    </Form.Control.Feedback>
                 </Form.Group>
                 <Form.Group className='mb-5' controlId='articleImage'>
                     <Form.Label>Featured image</Form.Label>
@@ -112,13 +157,18 @@ const ArticleForm = React.forwardRef<HTMLInputElement, FormProps>(
                             </ButtonGroup>
                         </div>
                     ) : (
-                        <Button
-                            variant='secondary'
-                            className='d-block'
-                            onClick={() => fileUploadRef.current?.click()}
-                        >
-                            Upload an image
-                        </Button>
+                        <>
+                            <Button
+                                variant='secondary'
+                                className='d-block'
+                                onClick={() => fileUploadRef.current?.click()}
+                            >
+                                Upload an image
+                            </Button>
+                            {errors.image && (
+                                <div className='mt-2 text-danger'>{errors.image}</div>
+                            )}
+                        </>
                     )}
                 </Form.Group>
                 <Form.Group className='mb-5'>
@@ -128,7 +178,12 @@ const ArticleForm = React.forwardRef<HTMLInputElement, FormProps>(
                         height={400}
                         value={content}
                         onChange={(v) => setContent(v || '')}
+                        className={!!errors.content ? 'border border-danger' : ''}
                     />
+                    <Stack className='mt-2' direction='horizontal' gap={3}>
+                        {errors.content && <div className='text-danger'>{errors.content}</div>}
+                        <div className='ms-auto'>{content.length}/150</div>
+                    </Stack>
                 </Form.Group>
 
                 <input type='submit' hidden ref={ref} />

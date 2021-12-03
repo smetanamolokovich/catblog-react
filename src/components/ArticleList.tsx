@@ -6,14 +6,18 @@ import ArticleItem from './ArticleItem';
 interface ArticleListProps {
     articles: IArticle[];
     plain?: boolean;
+    limit?: number;
+    excludeID?: string;
 }
 
-const ArticleList: FC<ArticleListProps> = ({ articles, plain }) => {
+const ArticleList: FC<ArticleListProps> = ({ articles, plain, limit, excludeID }) => {
     return (
         <Row>
             {articles.length ? (
                 articles
+                    .filter((el) => el.articleId !== excludeID)
                     .sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt))
+                    .slice(0, limit || articles.length - 1)
                     .map((item) => (
                         <ArticleItem key={item.articleId} article={item} plain={plain} />
                     ))
