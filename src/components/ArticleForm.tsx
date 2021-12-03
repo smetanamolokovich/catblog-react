@@ -18,23 +18,27 @@ interface FormError {
     title: string;
     content: string;
     image: string;
+    perex: string;
 }
 
 const ArticleForm = React.forwardRef<HTMLInputElement, FormProps>(
     ({ article, img, submitFn }, ref) => {
         const [title, setTitle] = useState('');
+        const [perex, setPerex] = useState('');
         const [content, setContent] = useState('');
         const [image, setImage] = useState<string>('');
         const [errors, setErrors] = useState<FormError>({
             title: '',
             content: '',
             image: '',
+            perex: '',
         });
         const [file, setFile] = useState<Blob | string>('');
         const fileUploadRef = useRef<HTMLInputElement>(null);
 
         useEffect(() => {
             if (article?.title) setTitle(article.title);
+            if (article?.perex) setPerex(article.perex);
             if (article?.content) setContent(article.content);
             if (img) setImage(img);
         }, [article, img]);
@@ -59,6 +63,12 @@ const ArticleForm = React.forwardRef<HTMLInputElement, FormProps>(
 
             if (!title) {
                 errors.title = 'Title is required';
+            }
+
+            if (!perex) {
+                errors.perex = 'Perex is required';
+            } else if (perex.length <= 50) {
+                errors.perex = 'Should contain at least 50 characters';
             }
 
             if (!content) {
@@ -87,10 +97,6 @@ const ArticleForm = React.forwardRef<HTMLInputElement, FormProps>(
             setImage('');
         }
 
-        const handlePerex = (content: string, wordsCount = 45): string => {
-            return content.split(' ').slice(0, wordsCount).join(' ') + '...';
-        };
-
         const handleSubmit = (e: FormEvent) => {
             e.preventDefault();
 
@@ -104,7 +110,7 @@ const ArticleForm = React.forwardRef<HTMLInputElement, FormProps>(
                     title,
                     content,
                     imageId: article?.imageId || id,
-                    perex: handlePerex(content),
+                    perex,
                     image: fd,
                 });
             }
@@ -124,6 +130,20 @@ const ArticleForm = React.forwardRef<HTMLInputElement, FormProps>(
                     <Form.Control.Feedback type='invalid'>
                         {errors.title}
                     </Form.Control.Feedback>
+                </Form.Group>
+                <Form.Group className='mb-5' controlId='articleTitle'>
+                    <Form.Label>Perex</Form.Label>
+                    <Form.Control
+                        value={perex}
+                        type='text'
+                        placeholder='My first article'
+                        onChange={(e) => setPerex(e.target.value)}
+                        isInvalid={!!errors.perex}
+                    />
+                    <Stack className='mt-2' direction='horizontal' gap={3}>
+                        {errors.content && <div className='text-danger'>{errors.content}</div>}
+                        <div className='ms-auto text-muted'>{perex.length} characters</div>
+                    </Stack>
                 </Form.Group>
                 <Form.Group className='mb-5' controlId='articleImage'>
                     <Form.Label>Featured image</Form.Label>
@@ -182,7 +202,7 @@ const ArticleForm = React.forwardRef<HTMLInputElement, FormProps>(
                     />
                     <Stack className='mt-2' direction='horizontal' gap={3}>
                         {errors.content && <div className='text-danger'>{errors.content}</div>}
-                        <div className='ms-auto'>{content.length}/150</div>
+                        <div className='ms-auto text-muted'>{content.length} characters</div>
                     </Stack>
                 </Form.Group>
 

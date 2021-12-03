@@ -1,4 +1,5 @@
 import { IArticle } from '@/models/article';
+import { IComment } from '@/models/comment';
 import { ArticleAction, ArticleActionTypes, ArticleState } from './types';
 
 const initialState: ArticleState = {
@@ -7,6 +8,7 @@ const initialState: ArticleState = {
     error: '',
     isFetching: false,
     image: '',
+    comment: {} as IComment,
 };
 
 export default function articleReducer(
@@ -18,6 +20,8 @@ export default function articleReducer(
             return { ...state, articles: action.payload };
         case ArticleActionTypes.SET_ARTICLE:
             return { ...state, article: action.payload };
+        case ArticleActionTypes.SET_COMMENT:
+            return { ...state, comment: action.payload };
         case ArticleActionTypes.SET_IMAGE:
             return { ...state, image: action.payload };
         case ArticleActionTypes.SET_ERROR:

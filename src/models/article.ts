@@ -1,3 +1,5 @@
+import { IComment } from './comment';
+
 export interface IArticleFormData {
     articleId: string;
     title: string;
@@ -13,7 +15,7 @@ export interface IArticle {
     perex: string;
     imageId: string;
     content: string;
-    comments: Array<any>;
+    comments: IComment[];
     createdAt: string;
 }
 

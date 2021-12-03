@@ -1,4 +1,5 @@
 import { IArticle } from '@/models/article';
+import { IComment } from '@/models/comment';
 
 export interface ArticleState {
     isFetching: boolean;
@@ -6,6 +7,7 @@ export interface ArticleState {
     article: IArticle;
     error: string;
     image: string;
+    comment: IComment;
 }
 
 export enum ArticleActionTypes {
@@ -14,6 +16,7 @@ export enum ArticleActionTypes {
     SET_ARTICLE = 'SET_ARTICLE',
     SET_ERROR = 'SET_ERROR',
     SET_IMAGE = 'SET_IMAGE',
+    SET_COMMENT = 'SET_COMMENT',
 }
 
 export interface SetLoadingAction {
@@ -36,10 +39,15 @@ export interface SetImageAction {
     type: ArticleActionTypes.SET_IMAGE;
     payload: string;
 }
+export interface SetCommentAction {
+    type: ArticleActionTypes.SET_COMMENT;
+    payload: IComment;
+}
 
 export type ArticleAction =
     | SetLoadingAction
     | SetArticlesAction
     | SetArticleAction
     | SetErrorAction
-    | SetImageAction;
+    | SetImageAction
+    | SetCommentAction;

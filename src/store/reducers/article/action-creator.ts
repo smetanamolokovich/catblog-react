@@ -1,4 +1,5 @@
 import { IArticle, IArticleFormData } from '@/models/article';
+import { IComment } from '@/models/comment';
 import { ArticleService } from '@/services';
 import ImageService from '@/services/imageService';
 import { AppDispatch } from '@/store';
@@ -6,6 +7,7 @@ import {
     ArticleActionTypes,
     SetArticleAction,
     SetArticlesAction,
+    SetCommentAction,
     SetErrorAction,
     SetImageAction,
     SetLoadingAction,
@@ -23,6 +25,10 @@ export const ArticleActionCreator = {
     setImage: (image: string): SetImageAction => ({
         type: ArticleActionTypes.SET_IMAGE,
         payload: image,
+    }),
+    setComment: (comment: IComment): SetCommentAction => ({
+        type: ArticleActionTypes.SET_COMMENT,
+        payload: comment,
     }),
     setIsFetching: (payload: boolean): SetLoadingAction => ({
         type: ArticleActionTypes.SET_IS_FETCHING,

@@ -11,6 +11,7 @@ import ImageService from '@/services/imageService';
 import MDEditor from '@uiw/react-md-editor';
 import moment from 'moment';
 import ArticleList from '@/components/ArticleList';
+import CommentsList from '@/components/CommentsList';
 
 const Article = () => {
     const params = useParams<{ articleId: string }>();
@@ -51,6 +52,8 @@ const Article = () => {
                     style={{ maxHeight: '500px', objectFit: 'cover' }}
                 />
                 <MDEditor.Markdown source={article.content} />
+                <hr className='my-5' />
+                <CommentsList comments={article.comments} />
             </Col>
             <Col sm='4' className='p-5 '>
                 <h4 className='mb-4'>Related articles</h4>

@@ -4,6 +4,7 @@ export interface IComment {
     author: string;
     content: string;
     score: number;
+    createdAt: string;
 }
 
 export interface ICommentFormData {
