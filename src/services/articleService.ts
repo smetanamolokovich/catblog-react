@@ -1,14 +1,21 @@
-import { IArticle, IArticleFormData } from '@/models/article';
+import { IArticle, IArticleFormData, IArticleResponse } from '@/models/article';
 import { authHeader } from '@/utils/auth';
 import axios from 'axios';
 
 export class ArticleService {
-    public static async getArticles(): Promise<IArticle[]> {
-        const { data } = await axios.get(process.env.REACT_APP_API_URL + 'articles', {
-            headers: authHeader(process.env.REACT_APP_API_KEY || ''),
-        });
+    public static async getArticles(limit?: number, offset = 0): Promise<IArticleResponse> {
+        const { data } = await axios.get<IArticleResponse>(
+            process.env.REACT_APP_API_URL + 'articles',
+            {
+                params: {
+                    limit: limit || undefined,
+                    offset,
+                },
+                headers: authHeader(process.env.REACT_APP_API_KEY || ''),
+            }
+        );
 
-        return data.items;
+        return data;
     }
     public static async getArticleByID(articleId: string): Promise<IArticle> {
         const { data } = await axios.get(

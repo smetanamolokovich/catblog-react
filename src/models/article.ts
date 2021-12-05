@@ -9,6 +9,11 @@ export interface IArticleFormData {
     image: FormData;
 }
 
+export interface IArticleResponse {
+    items: IArticle[];
+    pagination: IPagination;
+}
+
 export interface IArticle {
     articleId: string;
     title: string;
@@ -17,6 +22,12 @@ export interface IArticle {
     content: string;
     comments: IComment[];
     createdAt: string;
+}
+
+export interface IPagination {
+    total: number;
+    limit: number;
+    offset: number;
 }
 
 export interface IImageFormData {

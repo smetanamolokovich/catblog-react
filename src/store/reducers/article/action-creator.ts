@@ -11,6 +11,7 @@ import {
     SetErrorAction,
     SetImageAction,
     SetLoadingAction,
+    SetTotalAction,
 } from './types';
 
 export const ArticleActionCreator = {
@@ -38,23 +39,28 @@ export const ArticleActionCreator = {
         type: ArticleActionTypes.SET_ERROR,
         payload: error,
     }),
+    setTotal: (payload: number): SetTotalAction => ({
+        type: ArticleActionTypes.SET_TOTAL,
+        payload,
+    }),
     removeArticle: (articleId: string) => async (dispatch: AppDispatch) => {
         try {
             await ArticleService.removeArticle(articleId);
-            const articles = await ArticleService.getArticles();
-            dispatch(ArticleActionCreator.setArticles(articles));
+            const { items } = await ArticleService.getArticles();
+            dispatch(ArticleActionCreator.setArticles(items));
         } catch (error) {
             dispatch(
                 ArticleActionCreator.setArticleError('Failed while deleting the article...')
             );
         }
     },
-    getArticles: () => async (dispatch: AppDispatch) => {
+    getArticles: (limit = 0, offset = 0) => async (dispatch: AppDispatch) => {
         try {
             dispatch(ArticleActionCreator.setIsFetching(true));
 
-            const articles = await ArticleService.getArticles();
-            dispatch(ArticleActionCreator.setArticles(articles));
+            const { items, pagination } = await ArticleService.getArticles(limit, offset);
+            dispatch(ArticleActionCreator.setArticles(items));
+            dispatch(ArticleActionCreator.setTotal(pagination.total));
 
             dispatch(ArticleActionCreator.setIsFetching(false));
         } catch (error) {
@@ -71,8 +77,8 @@ export const ArticleActionCreator = {
             dispatch(ArticleActionCreator.setArticle(article));
             const img = await ImageService.getImageByID(article.imageId);
             dispatch(ArticleActionCreator.setImage(img));
-            const articles = await ArticleService.getArticles();
-            dispatch(ArticleActionCreator.setArticles(articles));
+            const { items } = await ArticleService.getArticles();
+            dispatch(ArticleActionCreator.setArticles(items));
 
             dispatch(ArticleActionCreator.setIsFetching(false));
         } catch (error) {
@@ -88,8 +94,8 @@ export const ArticleActionCreator = {
 
             ArticleService.createArticle(article);
 
-            const articles = await ArticleService.getArticles();
-            dispatch(ArticleActionCreator.setArticles(articles));
+            const { items } = await ArticleService.getArticles();
+            dispatch(ArticleActionCreator.setArticles(items));
         } catch (error) {
             dispatch(
                 ArticleActionCreator.setArticleError('Failed while publishing the article...')
@@ -108,8 +114,8 @@ export const ArticleActionCreator = {
 
             ArticleService.updateArticle(article);
 
-            const articles = await ArticleService.getArticles();
-            dispatch(ArticleActionCreator.setArticles(articles));
+            const { items } = await ArticleService.getArticles();
+            dispatch(ArticleActionCreator.setArticles(items));
         } catch (error) {
             dispatch(
                 ArticleActionCreator.setArticleError('Failed while updating the article...')

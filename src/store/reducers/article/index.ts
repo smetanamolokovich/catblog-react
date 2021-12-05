@@ -9,6 +9,7 @@ const initialState: ArticleState = {
     isFetching: false,
     image: '',
     comment: {} as IComment,
+    total: 0,
 };
 
 export default function articleReducer(
@@ -28,6 +29,8 @@ export default function articleReducer(
             return { ...state, error: action.payload, isFetching: false };
         case ArticleActionTypes.SET_IS_FETCHING:
             return { ...state, isFetching: action.payload };
+        case ArticleActionTypes.SET_TOTAL:
+            return { ...state, total: action.payload };
         default:
             return state;
     }

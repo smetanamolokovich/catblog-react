@@ -8,6 +8,7 @@ export interface ArticleState {
     error: string;
     image: string;
     comment: IComment;
+    total: number;
 }
 
 export enum ArticleActionTypes {
@@ -17,6 +18,7 @@ export enum ArticleActionTypes {
     SET_ERROR = 'SET_ERROR',
     SET_IMAGE = 'SET_IMAGE',
     SET_COMMENT = 'SET_COMMENT',
+    SET_TOTAL = 'SET_TOTAL',
 }
 
 export interface SetLoadingAction {
@@ -43,6 +45,10 @@ export interface SetCommentAction {
     type: ArticleActionTypes.SET_COMMENT;
     payload: IComment;
 }
+export interface SetTotalAction {
+    type: ArticleActionTypes.SET_TOTAL;
+    payload: number;
+}
 
 export type ArticleAction =
     | SetLoadingAction
@@ -50,4 +56,5 @@ export type ArticleAction =
     | SetArticleAction
     | SetErrorAction
     | SetImageAction
-    | SetCommentAction;
+    | SetCommentAction
+    | SetTotalAction;

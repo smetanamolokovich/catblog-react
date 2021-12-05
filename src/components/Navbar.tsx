@@ -15,16 +15,21 @@ interface CustomToggleProps {
     onClick: (e: React.MouseEvent) => void;
 }
 
-const CustomToggle: FC<CustomToggleProps> = ({ onClick, avatar }) => (
-    <div>
-        <span style={{ color: '#2B2C37', fontSize: '9px', marginRight: '5px' }}>&#x25bc;</span>
-        <Image
-            onClick={onClick}
-            src={avatar ? avatar : 'https://via.placeholder.com/32X32?text=?'}
-            roundedCircle
-            style={{ cursor: 'pointer' }}
-        />
-    </div>
+const CustomToggle = React.forwardRef<HTMLImageElement, CustomToggleProps>(
+    ({ onClick, avatar }, ref) => (
+        <div>
+            <span style={{ color: '#2B2C37', fontSize: '9px', marginRight: '5px' }}>
+                &#x25bc;
+            </span>
+            <Image
+                ref={ref}
+                onClick={onClick}
+                src={avatar ? avatar : 'https://via.placeholder.com/32X32?text=?'}
+                roundedCircle
+                style={{ cursor: 'pointer' }}
+            />
+        </div>
+    )
 );
 
 const Header: FC = () => {
@@ -89,7 +94,7 @@ const Header: FC = () => {
                                 <Nav.Link onClick={() => router.push(RouteNames.LOGIN)}>
                                     Login{' '}
                                     <i
-                                        className='bi bi-arrow-right ms-1'
+                                        className='bi bi-arrow-right'
                                         style={{ fontSize: 'inherit', color: 'inherit' }}
                                     />
                                 </Nav.Link>
