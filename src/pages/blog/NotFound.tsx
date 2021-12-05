@@ -8,7 +8,10 @@ const NotFound = () => {
     const router = useHistory();
     return (
         <div className='mx-auto mt-5 w-75 text-center'>
-            <Image src='https://i.imgur.com/oEUksmz.png' width={500} />
+            <Image
+                src='https://i.imgur.com/oEUksmz.png'
+                style={{ maxWidth: 500, width: '100%' }}
+            />
             <h2>Don’t Cry Over Spilled Page</h2>
             <Button
                 variant='dark'
