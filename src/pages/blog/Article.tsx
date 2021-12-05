@@ -13,7 +13,8 @@ import CommentsList from '@/components/CommentsList';
 
 const Article = () => {
     const params = useParams<{ articleId: string }>();
-    const { article, articles, image } = useTypedSelector((state) => state.article);
+    const { user } = useTypedSelector((s) => s.auth);
+    const { article, articles, image } = useTypedSelector((s) => s.article);
     const { setArticle, setArticles, setImage, getArticleByID } = useActions();
 
     useEffect(() => {
@@ -39,8 +40,13 @@ const Article = () => {
                     style={{ maxHeight: '500px', objectFit: 'cover' }}
                 />
                 <MDEditor.Markdown source={article.content} />
-                <hr className='my-5' />
-                <CommentsList comments={article.comments} />
+
+                {user.username && (
+                    <>
+                        <hr className='my-5' />
+                        <CommentsList comments={article.comments} />
+                    </>
+                )}
             </Col>
             <Col lg='4' className='p-5 '>
                 <h4 className='mb-4'>Related articles</h4>

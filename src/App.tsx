@@ -10,7 +10,7 @@ import { useTypedSelector } from './hooks/useTypedSelector';
 
 function App() {
     const { setIsAuth, setUser, logout } = useActions();
-    const { success, error } = useTypedSelector((state) => state.auth);
+    const { success, error } = useTypedSelector((s) => s.auth);
 
     useEffect(() => {
         const userStr = localStorage.getItem('user');

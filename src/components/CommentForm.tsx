@@ -10,14 +10,14 @@ interface CommentFormProps {
 }
 
 const CommentForm: FC<CommentFormProps> = ({ submit }) => {
-    const { user } = useTypedSelector((state) => state.auth);
+    const { user } = useTypedSelector((s) => s.auth);
     const params = useParams<{ articleId: string }>();
     const [comment, setComment] = useState('');
 
     const submitComment = async (e: FormEvent) => {
         e.preventDefault();
 
-        if (comment) {
+        if (user.username && comment) {
             submit({
                 articleId: params.articleId,
                 author: user.username,

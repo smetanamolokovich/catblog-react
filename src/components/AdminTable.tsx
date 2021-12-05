@@ -34,7 +34,19 @@ const AdminTable: FC<AdminTableProps> = ({ articles }) => {
                 {articles.map((article) => (
                     <tr key={article.articleId}>
                         <td>
-                            <div className='elipsis-single' style={{ maxWidth: '250px' }}>
+                            <div
+                                role='button'
+                                className='elipsis-single'
+                                style={{ maxWidth: '250px' }}
+                                onClick={() =>
+                                    router.push(
+                                        RouteNames.ARTICLE.replace(
+                                            ':articleId',
+                                            article.articleId
+                                        )
+                                    )
+                                }
+                            >
                                 {article.title}
                             </div>
                         </td>

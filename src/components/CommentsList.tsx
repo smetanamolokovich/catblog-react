@@ -14,10 +14,13 @@ const CommentsList: FC<CommentListProps> = ({ comments }) => {
     const { getArticleByID } = useActions();
     const params = useParams<{ articleId: string }>();
 
-    const commentArticle = useCallback(async (commentFormData: ICommentFormData) => {
-        await CommentService.addComment(commentFormData);
-        getArticleByID(params.articleId);
-    }, []);
+    const commentArticle = useCallback(
+        async (commentFormData: ICommentFormData) => {
+            await CommentService.addComment(commentFormData);
+            getArticleByID(params.articleId);
+        },
+        [comments]
+    );
 
     const upvote = useCallback(async (commentId: string) => {
         await CommentService.upvoteComment(commentId);

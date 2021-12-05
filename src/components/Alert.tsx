@@ -1,4 +1,5 @@
-import React, { FC, useState } from 'react';
+import { useActions } from '@/hooks/useActions';
+import React, { FC, useEffect, useState } from 'react';
 import Toast from 'react-bootstrap/Toast';
 import ToastContainer from 'react-bootstrap/ToastContainer';
 
@@ -19,9 +20,16 @@ interface AlertProps {
 
 const Alert: FC<AlertProps> = ({ msg, type, position }) => {
     const [show, setShow] = useState(true);
+    const { setError } = useActions();
+
+    useEffect(() => {
+        return () => {
+            setError('');
+        };
+    }, []);
 
     return (
-        <ToastContainer position={position} className='p-3'>
+        <ToastContainer position={position} className='p-3 position-fixed'>
             <Toast
                 onClose={() => setShow(false)}
                 show={show}
