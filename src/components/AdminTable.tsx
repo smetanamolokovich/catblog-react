@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useCallback } from 'react';
 import { IArticle } from '@/models/article';
 import Table from 'react-bootstrap/Table';
 import Stack from 'react-bootstrap/Stack';
@@ -15,8 +15,12 @@ const AdminTable: FC<AdminTableProps> = ({ articles }) => {
     const { removeArticle } = useActions();
     const router = useHistory();
 
+    const handleRemove = useCallback((id: string) => {
+        removeArticle(id);
+    }, []);
+
     return (
-        <Table responsive='md'>
+        <Table responsive='lg'>
             <thead>
                 <tr>
                     <th>Article title</th>
@@ -68,7 +72,7 @@ const AdminTable: FC<AdminTableProps> = ({ articles }) => {
                                     <i className='bi bi-pencil'></i>
                                 </Button>
                                 <Button
-                                    onClick={() => removeArticle(article.articleId)}
+                                    onClick={() => handleRemove(article.articleId)}
                                     className='btn-light'
                                     style={{
                                         backgroundColor: 'white',

@@ -6,6 +6,7 @@ export interface AuthState {
     user: IUser;
     isLoading: boolean;
     error: string;
+    success: string;
     token: IToken;
 }
 
@@ -14,6 +15,7 @@ export enum AuthActionTypes {
     SET_USER = 'SET_USER',
     SET_LOADING = 'SET_LOADING',
     SET_ERROR = 'SET_ERROR',
+    SET_SUCCESS = 'SET_SUCCESS',
     SET_TOKEN = 'SET_TOKEN',
 }
 
@@ -33,6 +35,10 @@ export interface SetErrorAction {
     type: AuthActionTypes.SET_ERROR;
     payload: string;
 }
+export interface SetSuccessAction {
+    type: AuthActionTypes.SET_SUCCESS;
+    payload: string;
+}
 export interface SetTokenAction {
     type: AuthActionTypes.SET_TOKEN;
     payload: IToken;
@@ -41,6 +47,7 @@ export interface SetTokenAction {
 export type AuthAction =
     | SetAuthAction
     | SetErrorAction
+    | SetSuccessAction
     | SetUserAction
     | SetLoadingAction
     | SetTokenAction;

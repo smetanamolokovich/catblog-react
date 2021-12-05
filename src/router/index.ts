@@ -5,6 +5,7 @@ import Login from '@/pages/admin//Login';
 import CreateArticle from '@/pages/blog/CreateArticle';
 import Article from '@/pages/blog/Article';
 import UpdateArticle from '@/pages/admin/UpdateArticle';
+import NotFound from '@/pages/blog/NotFound';
 
 export interface IRoute {
     path: string;
@@ -19,6 +20,7 @@ export const RouteNames = {
     CREATE_ARTICLE: '/create-article',
     UPDATE_ARTICLE: '/update-article/:articleId',
     ARTICLE: '/articles/:articleId',
+    NOT_FOUND: '*',
 };
 
 export const publicRoutes: IRoute[] = [
@@ -36,6 +38,11 @@ export const publicRoutes: IRoute[] = [
         path: RouteNames.HOME,
         component: Home,
         exact: true,
+    },
+    {
+        path: RouteNames.NOT_FOUND,
+        component: NotFound,
+        exact: false,
     },
 ];
 

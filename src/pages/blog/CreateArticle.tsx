@@ -8,9 +8,9 @@ import { useActions } from '@/hooks/useActions';
 import { IArticleFormData } from '@/models/article';
 
 const CreateArticle: FC = () => {
+    const router = useHistory();
     const { publish } = useActions();
     const buttonRef = useRef<HTMLInputElement | null>(null);
-    const router = useHistory();
 
     const clickFromOutside = () => {
         buttonRef.current?.click();

@@ -1,7 +1,6 @@
 import React, { FC, FormEvent, useState } from 'react';
 import Image from 'react-bootstrap/Image';
 import Form from 'react-bootstrap/Form';
-import CommentService from '@/services/commentService';
 import { useParams } from 'react-router-dom';
 import { useTypedSelector } from '@/hooks/useTypedSelector';
 import { ICommentFormData } from '@/models/comment';

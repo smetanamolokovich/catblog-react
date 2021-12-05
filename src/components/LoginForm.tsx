@@ -9,14 +9,15 @@ import { useFormInput } from '@/hooks/useFormInput';
 interface LoginFormProps {}
 
 const LoginForm: FC<LoginFormProps> = () => {
-    const { isLoading } = useTypedSelector((state) => state.auth);
     const username = useFormInput('');
     const password = useFormInput('');
-    const { login } = useActions();
+    const { isLoading } = useTypedSelector((state) => state.auth);
+    const { login, setError } = useActions();
 
     const submit = (event: React.FormEvent) => {
         event.preventDefault();
 
+        setError('');
         login(username.value, password.value);
     };
 
@@ -43,6 +44,7 @@ const LoginForm: FC<LoginFormProps> = () => {
                             size='sm'
                             role='status'
                             aria-hidden='true'
+                            className='text-white'
                         />
                     ) : (
                         'Log in'

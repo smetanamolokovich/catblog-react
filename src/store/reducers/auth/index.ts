@@ -7,6 +7,7 @@ const initialState: AuthState = {
     user: {} as IUser,
     isLoading: false,
     error: '',
+    success: '',
     token: {} as IToken,
 };
 
@@ -20,6 +21,8 @@ export default function authReducer(state = initialState, action: AuthAction): A
             return { ...state, isLoading: action.payload };
         case AuthActionTypes.SET_ERROR:
             return { ...state, error: action.payload, isLoading: false };
+        case AuthActionTypes.SET_SUCCESS:
+            return { ...state, success: action.payload, isLoading: false };
         case AuthActionTypes.SET_TOKEN:
             return { ...state, token: action.payload };
         default:

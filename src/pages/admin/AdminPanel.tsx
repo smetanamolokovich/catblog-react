@@ -6,11 +6,12 @@ import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
 import { useActions } from '@/hooks/useActions';
 import { useTypedSelector } from '@/hooks/useTypedSelector';
+import Loader from '@/components/Loader';
 
 const AdminPanel: FC = () => {
     const router = useHistory();
     const { getArticles, setArticles } = useActions();
-    const { articles } = useTypedSelector((state) => state.article);
+    const { articles, isFetching } = useTypedSelector((state) => state.article);
 
     useEffect(() => {
         getArticles();
@@ -29,7 +30,7 @@ const AdminPanel: FC = () => {
                 </Button>
             </div>
 
-            <AdminTable articles={articles} />
+            {isFetching ? <Loader animation='grow' /> : <AdminTable articles={articles} />}
         </Row>
     );
 };

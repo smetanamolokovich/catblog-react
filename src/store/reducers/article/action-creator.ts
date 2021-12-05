@@ -69,6 +69,10 @@ export const ArticleActionCreator = {
 
             const article = await ArticleService.getArticleByID(id);
             dispatch(ArticleActionCreator.setArticle(article));
+            const img = await ImageService.getImageByID(article.imageId);
+            dispatch(ArticleActionCreator.setImage(img));
+            const articles = await ArticleService.getArticles();
+            dispatch(ArticleActionCreator.setArticles(articles));
 
             dispatch(ArticleActionCreator.setIsFetching(false));
         } catch (error) {

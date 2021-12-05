@@ -7,13 +7,14 @@ import { useTypedSelector } from '@/hooks/useTypedSelector';
 import { useActions } from '@/hooks/useActions';
 import { IArticle, IArticleFormData } from '@/models/article';
 import { RouteNames } from '@/router';
+import Loader from '@/components/Loader';
 
 const UpdateArticle: FC = () => {
     const params = useParams<{ articleId: string }>();
     const router = useHistory();
     const buttonRef = useRef<HTMLInputElement | null>(null);
-    const { article, image } = useTypedSelector((state) => state.article);
-    const { getArticleByID, getImage, setArticle, setImage } = useActions();
+    const { article, image, isFetching } = useTypedSelector((state) => state.article);
+    const { getArticleByID, setArticle, setImage } = useActions();
     const { update } = useActions();
 
     useEffect(() => {
@@ -21,16 +22,9 @@ const UpdateArticle: FC = () => {
 
         return () => {
             setArticle({} as IArticle);
-        };
-    }, []);
-
-    useEffect(() => {
-        if (article.imageId) getImage(article.imageId);
-
-        return () => {
             setImage('');
         };
-    }, [article]);
+    }, []);
 
     const clickFromOutside = () => {
         buttonRef.current?.click();
@@ -48,14 +42,19 @@ const UpdateArticle: FC = () => {
 
                 <Button onClick={() => clickFromOutside()}>Update article</Button>
             </div>
-            <div style={{ maxWidth: '760px' }}>
-                <ArticleForm
-                    article={article}
-                    img={image}
-                    ref={buttonRef}
-                    submitFn={submitFromOutside}
-                />
-            </div>
+
+            {isFetching ? (
+                <Loader animation='grow' />
+            ) : (
+                <div style={{ maxWidth: '760px' }}>
+                    <ArticleForm
+                        article={article}
+                        img={image}
+                        ref={buttonRef}
+                        submitFn={submitFromOutside}
+                    />
+                </div>
+            )}
         </Row>
     );
 };

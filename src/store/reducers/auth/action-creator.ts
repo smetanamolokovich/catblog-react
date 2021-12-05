@@ -5,6 +5,7 @@ import {
     SetAuthAction,
     SetErrorAction,
     SetLoadingAction,
+    SetSuccessAction,
     SetTokenAction,
     SetUserAction,
 } from './types';
@@ -27,6 +28,10 @@ export const AuthActionCreators = {
     setError: (error: string): SetErrorAction => ({
         type: AuthActionTypes.SET_ERROR,
         payload: error,
+    }),
+    setSuccess: (success: string): SetSuccessAction => ({
+        type: AuthActionTypes.SET_SUCCESS,
+        payload: success,
     }),
     setToken: (token: IToken): SetTokenAction => ({
         type: AuthActionTypes.SET_TOKEN,
@@ -52,7 +57,7 @@ export const AuthActionCreators = {
                     password,
                 })
             );
-            dispatch(AuthActionCreators.setError(''));
+            dispatch(AuthActionCreators.setSuccess('You successfully logged in!!!'));
         } catch (err) {
             dispatch(AuthActionCreators.setError('Login failed. Please try again...'));
         }
@@ -62,6 +67,7 @@ export const AuthActionCreators = {
         dispatch(AuthActionCreators.setIsAuth(false));
         dispatch(AuthActionCreators.setUser({} as IUser));
         dispatch(AuthActionCreators.setToken({} as IToken));
+        dispatch(AuthActionCreators.setSuccess(''));
         dispatch(AuthActionCreators.setError(''));
     },
 };

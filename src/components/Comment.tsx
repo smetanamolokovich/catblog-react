@@ -1,9 +1,8 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC } from 'react';
 import Stack from 'react-bootstrap/Stack';
 import Image from 'react-bootstrap/Image';
 import { IComment } from '@/models/comment';
 import moment from 'moment';
-import CommentService from '@/services/commentService';
 
 interface CommentProps {
     comment: IComment;
@@ -25,7 +24,7 @@ const Comment: FC<CommentProps> = ({ comment, upvote, downvote }) => {
                 <div className='mb-2'>
                     <span className='commentator me-3 fw-bold'>{comment.author}</span>
                     <span className='commented-at text-muted' style={{ fontSize: '14px' }}>
-                        {moment(comment.createdAt).fromNow()}
+                        {moment(new Date(comment.createdAt)).fromNow()}
                     </span>
                 </div>
                 <p className='comment'>{comment.content}</p>
